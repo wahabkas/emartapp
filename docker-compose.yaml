@@ -5,8 +5,8 @@
 version: '3.8'
 
 services:
-  emartdbservice: 
-    image: mysql
+  emartdb: 
+    image: mysql:8.0.33
     restart: always
     container_name: emartdb
     environment:
@@ -17,8 +17,8 @@ services:
     ports: 
       - 3306:3306
 
-  emongoservice: 
-    image: mongo
+  emongo: 
+    image: mongo:4
     restart: always
     container_name: emongo
     environment:
@@ -26,7 +26,7 @@ services:
     ports: 
       - 27017:27017
 
-  nodeapiservice: 
+  api: 
     build:
       context: nodeapi
     container_name: api
@@ -34,9 +34,10 @@ services:
     ports:
       - 5000:5000
     depends_on:
-      - emongoservice
+      - emongo
+      - nginx
 
-  javaapi:
+  webapi:
     build:
       context: javaapi
     container_name: webapi
@@ -44,7 +45,7 @@ services:
     ports:
       - 9000:9000
     depends_on:
-      - emartdbservice
+      - emartdb
 
   client: 
     build:
@@ -54,8 +55,8 @@ services:
     ports:
       - 4200:4200
     depends_on:
-      - javaapi
-      - nodeapiservice
+      - webapi
+      - api
 
   nginx: 
     restart: always 
@@ -65,11 +66,6 @@ services:
       - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
     ports:
       - "80:80"
-    depends_on:
-      - client
 
-networks:
-  default: 
-    driver: bridge
-    name: backend_network
+
 
