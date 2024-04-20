@@ -1,0 +1,10 @@
+name: actions CICD
+
+on:
+  push:
+    branches:
+      - developcompose
+
+jobs:
+  checkout:
+    - uses: actions/checkout@v4
