@@ -27,8 +27,7 @@ services:
       - 27017:27017
 
   api: 
-    build:
-      context: nodeapi
+    image: wahabkas/emart-nodeapi:latest
     container_name: api
     restart: always
     ports:
@@ -38,8 +37,7 @@ services:
       - nginx
 
   webapi:
-    build:
-      context: javaapi
+    image: wahabkas/emart-webapi:latest
     container_name: webapi
     restart: always
     ports:
@@ -48,8 +46,7 @@ services:
       - emartdb
 
   client: 
-    build:
-      context: client
+    image: wahabkas/emart-client:latest
     container_name: client
     restart: always 
     ports:
@@ -60,10 +57,10 @@ services:
 
   nginx: 
     restart: always 
-    image: nginx
+    image: wahabkas/emart-nginx-api:latest
     container_name: nginx
-    volumes:
-      - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+#    volumes:
+#      - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
     ports:
       - "80:80"
 
