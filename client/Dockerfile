@@ -10,8 +10,8 @@ FROM nginx:latest
 
 # Copy the build output to replace the default nginx contents.
 #COPY --from=web-build /usr/src/app/client/dist/client /usr/share/nginx/html
-COPY --from=web-build /usr/src/app/dist /usr/share/nginx/html
+COPY --from=web-build /usr/src/app/dist/client /usr/share/nginx/html
 COPY ./client/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 4200
+#Expose port 4200
 EXPOSE 4200
